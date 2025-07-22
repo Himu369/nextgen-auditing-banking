@@ -1,19 +1,28 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { University, Bell, UserCircle, LogOut, Database } from "lucide-react";
+import {
+  University,
+  Bell,
+  UserCircle,
+  LogOut,
+  Database,
+  Settings,
+} from "lucide-react";
 import { DataConnectionSection } from "@/components/data-connection-section";
 import { ToolSelection } from "@/components/tool-selection";
 import { DormantAnalyser } from "@/components/dormant-analyser";
 import { ComplianceAnalyser } from "@/components/compliance-analyser";
 import { AuditChat } from "@/components/audit-chat";
 import { SqlBot } from "@/components/sql-bot";
+import { Configuration } from "@/components/configuration"; // Import the new Configuration component
 
 type Tool = "dormant" | "compliance" | "audit-chat" | "sql-bot" | null;
 
 export default function LandingPage() {
   const [, navigate] = useLocation();
   const [currentTool, setCurrentTool] = useState<Tool>(null);
+  const [showConfiguration, setShowConfiguration] = useState(false); // New state for Configuration visibility
 
   const handleLogout = () => {
     navigate("/");
@@ -21,10 +30,20 @@ export default function LandingPage() {
 
   const showTool = (tool: Tool) => {
     setCurrentTool(tool);
+    setShowConfiguration(false); // Hide configuration if a tool is selected
   };
 
   const hideTool = () => {
     setCurrentTool(null);
+  };
+
+  const handleShowConfiguration = () => {
+    setShowConfiguration(true);
+    setCurrentTool(null); // Hide any open tool when configuration is shown
+  };
+
+  const handleCloseConfiguration = () => {
+    setShowConfiguration(false);
   };
 
   return (
@@ -37,23 +56,44 @@ export default function LandingPage() {
               <University className="text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold gradient-text">NextGen Banking</h1>
-              <p className="text-gray-400 text-sm">Enterprise Analytics Dashboard</p>
+              <h1 className="text-xl font-bold gradient-text">
+                NextGen Auditing
+              </h1>
+              <p className="text-gray-400 text-sm">
+                Enterprise Analytics Dashboard
+              </p>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="glass-effect rounded-lg px-4 py-2 text-sm hover:bg-white/5">
+            <Button
+              variant="ghost"
+              className="glass-effect rounded-lg px-4 py-2 text-sm hover:bg-white/5"
+            >
               <Bell className="w-4 h-4 mr-2" />
               Notifications
             </Button>
-            <Button variant="ghost" className="glass-effect rounded-lg px-4 py-2 text-sm hover:bg-white/5">
+
+            {/* Configuration Button */}
+            <Button
+              variant="ghost"
+              className="glass-effect rounded-lg px-4 py-2 text-sm hover:bg-white/5"
+              onClick={handleShowConfiguration} // Call the new handler
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Configuration
+            </Button>
+
+            <Button
+              variant="ghost"
+              className="glass-effect rounded-lg px-4 py-2 text-sm hover:bg-white/5"
+            >
               <UserCircle className="w-4 h-4 mr-2" />
               Profile
             </Button>
-            <Button 
+            <Button
               onClick={handleLogout}
-              variant="ghost" 
+              variant="ghost"
               className="glass-effect rounded-lg px-4 py-2 text-sm hover:bg-white/5"
             >
               <LogOut className="w-4 h-4 mr-2" />
@@ -63,43 +103,52 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Data Connection Section */}
-      <section className="mb-8">
-        <h2 className="text-lg font-semibold mb-4 flex items-center">
-          <Database className="w-5 h-5 mr-2 text-cyan-400" />
-          Data Connection Hub
-        </h2>
-        <DataConnectionSection />
-      </section>
-
-      {/* Tool Selection */}
-      <section className="mb-8">
-        <ToolSelection onToolSelect={showTool} />
-      </section>
-
-      {/* Tool Views */}
-      {currentTool === "dormant" && (
-        <div className="slide-in">
-          <DormantAnalyser onClose={hideTool} />
+      {/* Conditional rendering for Configuration or other sections */}
+      {showConfiguration ? (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Configuration onClose={handleCloseConfiguration} />
         </div>
-      )}
+      ) : (
+        <>
+          {/* Data Connection Section */}
+          <section className="mb-8">
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <Database className="w-5 h-5 mr-2 text-cyan-400" />
+              Data Connection Hub
+            </h2>
+            <DataConnectionSection />
+          </section>
 
-      {currentTool === "compliance" && (
-        <div className="slide-in">
-          <ComplianceAnalyser onClose={hideTool} />
-        </div>
-      )}
+          {/* Tool Selection */}
+          <section className="mb-8">
+            <ToolSelection onToolSelect={showTool} />
+          </section>
 
-      {currentTool === "audit-chat" && (
-        <div className="slide-in">
-          <AuditChat onClose={hideTool} />
-        </div>
-      )}
+          {/* Tool Views */}
+          {currentTool === "dormant" && (
+            <div className="slide-in">
+              <DormantAnalyser onClose={hideTool} />
+            </div>
+          )}
 
-      {currentTool === "sql-bot" && (
-        <div className="slide-in">
-          <SqlBot onClose={hideTool} />
-        </div>
+          {currentTool === "compliance" && (
+            <div className="slide-in">
+              <ComplianceAnalyser onClose={hideTool} />
+            </div>
+          )}
+
+          {currentTool === "audit-chat" && (
+            <div className="slide-in">
+              <AuditChat onClose={hideTool} />
+            </div>
+          )}
+
+          {currentTool === "sql-bot" && (
+            <div className="slide-in">
+              <SqlBot onClose={hideTool} />
+            </div>
+          )}
+        </>
       )}
     </div>
   );

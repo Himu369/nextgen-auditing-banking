@@ -29,8 +29,12 @@ export default function LoginPage() {
               <University className="text-white text-xl" />
             </div>
             <div className="text-left">
-              <h1 className="text-2xl font-bold gradient-text">NextGen Banking</h1>
-              <p className="text-gray-400 text-sm">Enterprise Analytics Platform</p>
+              <h1 className="text-2xl font-bold gradient-text">
+                NextGen Auditing
+              </h1>
+              <p className="text-gray-400 text-sm">
+                Enterprise Analytics Platform
+              </p>
             </div>
           </div>
           <p className="text-gray-300 text-sm flex items-center justify-center gap-2">
@@ -41,11 +45,16 @@ export default function LoginPage() {
 
         {/* 3D Animated Login Card */}
         <FloatingCard>
-          <h2 className="text-xl font-semibold mb-6 text-center">Enterprise Access</h2>
-          
+          <h2 className="text-xl font-semibold mb-6 text-center">
+            AI Driven Insights Bot
+          </h2>
+
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium text-gray-300">
+              <Label
+                htmlFor="username"
+                className="text-sm font-medium text-gray-300"
+              >
                 Username
               </Label>
               <div className="relative">
@@ -61,9 +70,12 @@ export default function LoginPage() {
                 />
               </div>
             </div>
-            
+
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-gray-300">
+              <Label
+                htmlFor="password"
+                className="text-sm font-medium text-gray-300"
+              >
                 Password
               </Label>
               <div className="relative">
@@ -79,7 +91,7 @@ export default function LoginPage() {
                 />
               </div>
             </div>
-            
+
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-blue-600 to-cyan-400 hover:from-blue-700 hover:to-cyan-500 py-3 rounded-lg font-semibold neon-glow transition-all duration-300"
@@ -88,7 +100,7 @@ export default function LoginPage() {
               Secure Login
             </Button>
           </form>
-          
+
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-400 flex items-center justify-center gap-1">
               <ShieldCheck className="w-3 h-3" />
